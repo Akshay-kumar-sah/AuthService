@@ -25,7 +25,31 @@ constructor () {
         }
 
     }
+      async signIn (email, plainPassword){
 
+        try {
+            //step 1 -> fetch the user using email
+            const user = await this.userRepository.getByEmail(email);
+            //step 2 -> compare incoming plain password with store encrypted password
+            const passwordMatch = this.checkPassword(plainPassword, user.password);
+
+           if (!passwordMatch) {
+            console.log('Password does not match');
+            throw {error:'Incorrect password'};
+           }
+           //step 3 -> if password match then create token and send it to the user
+          const newJWT = this.createToken({email:user.email, id:user.id});
+          return newJWT;
+
+            
+        } catch (error) {
+
+            console.log('Something went wrong in the sing in process');
+            throw error;
+            
+        }
+
+      }
 
     createToken (user) {
 
