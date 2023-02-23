@@ -21,14 +21,15 @@ module.exports = (sequelize, DataTypes) => {
        allowNull:false,
        unique:true,
        validate :{
-        isEmail:true,
+        isEmail:true
        }
     
     },
     password: {
       type: DataTypes.STRING,
+      allowNull : false,
       validate : {
-        len:[3, 100],
+        len:[3, 100]
       }
     }
   }, {
