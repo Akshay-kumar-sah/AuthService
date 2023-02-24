@@ -51,6 +51,29 @@ constructor () {
 
       }
 
+      async isAuthenticated (token) {
+        try {
+            const response = this.verifyToken(token);
+            if(!response){
+                throw {error : 'Invalid Token'};
+
+            }
+            const user = this.userRepository.getById(response.id);
+            if(!user){
+                throw {error:'No user with crrosponding token exist'};
+            }
+            return user.id;
+            
+        } catch (error) {
+
+            console.log('Something went wrong in the auth process');
+            throw error;
+            
+            
+        }
+
+      }
+
     createToken (user) {
 
         try {
@@ -91,6 +114,9 @@ constructor () {
         }
 
     }
+
+
+
 
 
 }
