@@ -47,7 +47,7 @@ const singIn = async (req, res) => {
 
 }
 
-const isAuthenticated= async (req, res) => {
+const isAuthenticated = async (req, res) => {
     try {
        const token =  req.headers['x-access-token'];
        
@@ -73,9 +73,33 @@ const isAuthenticated= async (req, res) => {
 }
 
 
+const isAdmin = async (req, res) => {
+    try {
+       const response = await userService.isAdmin(req.body.id);
+       return res.status(200).json({
+        data: response,
+        err: {},
+        success: true,
+        message: 'Successfully fetched whether user is admin or not'
+       });
+
+     } catch (error) {
+         console.log(error);
+         return res.status(500).json({
+             data : {},
+             message : 'Somethin went wrong ',
+             success: false,
+             err: error
+         });
+         
+     }
+}
+
+
 
 module.exports = {
     create,
     singIn,
     isAuthenticated,
+    isAdmin,
 }
