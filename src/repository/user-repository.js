@@ -1,7 +1,8 @@
 
 const {User, Role} = require('../models/index');
 const ValidationError = require('../utils/validation-error');
-
+const {StatusCodes} = require('http-status-code');
+const ClientError = require('../utils/client-error');
 
 class UserRepository{
 
@@ -73,6 +74,17 @@ async getByEmail (userEmail) {
         email:userEmail
         }
     });
+
+    if(!user){
+        throw new ClientError(
+         'AttributeNotFound',
+         'Invalid email sent in the request',
+         'Please check email, as there is no record of email',
+         StatusCodes.NOT_FOUND
+
+
+        )
+    }
      return user;
 
         
